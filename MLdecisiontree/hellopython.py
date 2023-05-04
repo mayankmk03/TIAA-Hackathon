@@ -8,7 +8,6 @@ district=sys.argv[2]
 
 print(state)
 
-print("fuck Yeah")
 print(district)
 
 
