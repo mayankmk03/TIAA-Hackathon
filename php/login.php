@@ -10,7 +10,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if(isset($_POST ['farmerlogin'])) {
   $farmer_email=$_POST['farmer_email'];
   $farmer_password=$_POST['farmer_password'];
-  $farmer_password=SHA1($farmer_password);
+  // $farmer_password=SHA1($farmer_password);
 
 
   $farmerquery = "SELECT * from `farmerlogin` where email='".$farmer_email."' and password='".$farmer_password."' ";
@@ -33,8 +33,8 @@ if(isset($_POST ['farmerlogin'])) {
 if(isset($_POST ['customerlogin'])) {
 
     $customer_email=$_POST['cust_email'];
-    $pass=$_POST['cust_password'];
-    $customer_password=SHA1($pass);
+    $customer_password=$_POST['cust_password'];
+    $customer_password=SHA1($customer_password);
 
     $checkquery = "SELECT * from `custlogin` where email='".$customer_email."' and password='".$customer_password."' ";
     $result = mysqli_query($conn, $checkquery);
