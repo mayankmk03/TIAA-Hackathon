@@ -31,20 +31,20 @@ The customer module that allows to buy a variety of crops from the farmers at we
 
 ## Installation
 
-1. SendGrid : 
-Enter your API Key in `send_otp.php`
+1. OTP Verification : 
+Enter your details in `send_otp.php`
 ```PHP
-$mail->Username = "Username";    //Your SendGrid Username
-$mail->Password = "YourAPIKEY"; 	//Your Sendgrid API KEY
-$mail->SetFrom("123@gmail.com");  //Your Registered Mail from Sendgrid
+$mail->Username = "Mail ID";    //Your Email ID
+$mail->Password = "Password"; 	//Your Email Password
+$mail->SetFrom("123@gmail.com");  //Your Email ID
 ```
 
-2. SendGrid : 
-Enter your API Key in `send_otp1.php`
+2. OTP Verification : 
+Enter your details in `send_otp1.php`
 ```PHP
-$mail->Username = "Username";    //Your SendGrid Username
-$mail->Password = "YourAPIKEY"; //Your Sendgrid API KEY
-$mail->SetFrom("123@gmail.com");  //Your Registered Mail from Sendgrid
+$mail->Username = "Mail ID";    //Your Email ID
+$mail->Password = "Password"; 	//Your Email Password
+$mail->SetFrom("123@gmail.com");  //Your Email ID
 ```
 
 3. News API :
@@ -57,15 +57,6 @@ $url='http://newsapi.org/v2/everything?q=farmers&apiKey=YourAPIKEY';   //Your AP
 Enter your API Key in `upcomming days.php`
 ```PHP
 $apiKey = "YourAPIKEY"; //Your API KEY 
-```
-
-5. Stripe payment gateway : 
-Enter your API Key in `StripePayment/config.php`
-```PHP
-$stripeDetails = array(
-	"secretKey" => "YourAPIKEY",  //Your Stripe Secret key
-	"publishableKey" => "YourAPIKEY"  //Your Stripe Publishable key
-	);
 ```
 
 
