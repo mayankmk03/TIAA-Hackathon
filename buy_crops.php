@@ -248,8 +248,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <tr>
                         <th scope="row">1</th>
                         <td>
-                        <div class="form-group col-md-4 col-xs-4">
+                        <!-- <div class="form-group col-md-4 col-xs-4">
 						<select id="crops" name="crops">
+						<optgroup label="Grains">
   							<option value="arhar">Arhar</option>
 							<option value="bajra">Bajra</option>  
 							<option value="barley">Barley</option>
@@ -263,19 +264,49 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<option value="ragi">Ragi</option>
   							<option value="rice">Rice</option>
 							<option value="soyabean">Soyabean</option>
+
 							<option value="urad">Urad</option>
 							<option value="wheat">Wheat</option>
+							</optgroup>
+							<optgroup label="Vegetable">
+
+<option value="tomato">Tomato</option>
+<option value="potato">Potato</option>
+<option value="beans">Beans</option>
+<option value="onion">onion</option>
+<option value="garlic">garlic</option>
+
+</optgroup>
+							<optgroup label="Extra">
+
+							<option value="egg">Egg</option>
+							<option value="bread">Bread</option>
+							<option value="milk">Milk</option>
+							<option value="ghee">Ghee</option>
+							</optgroup>
+
+							
+						</select> -->
+						<?php 
+						$query = "SELECT Trade_Crop FROM farmer_crops_trade";
+						$result = mysqli_query($conn, $query);
+						
+						$names = array();
+						while ($row = mysqli_fetch_assoc($result)) {
+							$names[] = $row['Trade_Crop'];
+						}
+						?>
+
+						<select name="crops">
+							<?php foreach ($names as $name): ?>
+								<option value="<?php echo $name; ?>"><?php echo $name; ?></option>
+							<?php endforeach; ?>
 						</select>
-					
-						</div>
-						
+						</div>						
 						</td>
-                        <td>
-						
-                        <div class="form-group col-md-4 col-xs-2">
-						
-                        <input type="number"  name="trade_farmer_cropquantity"  class="form-control required">
-						
+                        <td>						
+                        <div class="form-group col-md-4 col-xs-2">						
+                        <input type="number"  name="trade_farmer_cropquantity"  class="form-control required">						
                         </div>
 						
 						</td>
@@ -321,11 +352,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						$row8 = $result8->fetch_assoc();
 						$temp -= $row8['quantity'];
 
-						if($flag==1){
-						if($quantity>$temp)
+						// if($flag==1){
+						if($quantity<10)
 						$flag=0;
 						else $flag=1;
-						}
+						// }
 
 
 
@@ -340,52 +371,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						$result3=mysqli_query($conn,$query3);
 						$row2 = $result3->fetch_assoc();
 						$TradeId=$row2["trade_id"]; //trade id
-
-						
-
-
-						}
-
-                        
+						}                      
 						?>
-
-						
-
 						<td>
 						<?php
 						if(isset($_POST ['calculate'])){
-						 if($flag==1){ echo "Yes"; 
-
-						
+						 if($flag==1){ echo "Yes"; 						
+						}							
+						 else echo "No";						 
 						}
-							
-						 else echo "No";
-						 
-						}
-						 ?>
-                        
+					 ?>      
 						</td>
-
 						<td>
-                        Rs.&nbsp<?php if($flag==1) echo $x;?>
-						
+                        Rs.&nbsp<?php if($flag==1) echo $x;?>		
 						</td>
-
 						<td>
 						<form method="POST" action="buy_crops.php?action=add&id=<?php echo $TradeId ?>">
                             <input hidden name="hidden_name"  value="<?php echo $crop ?>">
 							<input hidden name="hidden_price" value="<?php echo $x ?>">
                             <input hidden name="quantity" value="<?php echo $quantity ?>">
-    
                             <button class="sc-add-to-cart"
                             <?php if ($flag == '0'){ ?> disabled <?php   } ?>
                             name="add_to_cart" type="submit">
                             Add To Cart
                             </button>
                         </form>
-
 						</td>
-
 						<?php
 						if(isset($_POST ['add_to_cart'])){
 							$crop=$_POST['hidden_name'];
@@ -395,18 +406,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   							VALUES ('$crop','$quantity','$price');";
   							$result4 = mysqli_query($conn, $query4);
 						}
-
 						?>
-
-						
-
-
-					
-
 						</tbody>
-
                         </table> 
-
 						<br />
 			<h3>Order Details</h3>
 			<div class="table-responsive">
@@ -433,7 +435,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<td><a href="buy_crops.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remove</span></a></td>
 					
 					</tr>
-
 					<?php
 							$total = $total +  $values["item_price"];
 							$_SESSION['Total_Cart_Price']=$total;
@@ -441,40 +442,115 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					?>
 					<tr>
 						<td colspan="2" align="right">Total</td>
-						<td align="right">Rs. <?php echo number_format($total,2); ?></td>
+						<td align="right" id="final">Rs. <?php echo number_format($total,2); ?></td>
 
 						<td>
 						
-						<?php
-							require_once "StripePayment/config.php";
+						<form id="coupon-form" onsubmit="applyCoupon(event)">
+						<label for="coupon-code">Coupon code:</label>
+						<input type="text" id="coupon-code" name="coupon-code" required> <br><br>
+						<button type="submit">Apply coupon</button>
+						</form>
+						<div id="result"></div><br>
+
 						
-							foreach ($products as $productID => $attributes) {
-								$TotalCartPrice=$_SESSION['Total_Cart_Price']*100;
-											echo '
-												<br>
-												<form action="StripePayment/stripeIPN.php?id='.$productID.'" method="POST">
-												<script 
-													src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-													data-key="'.$stripeDetails['publishableKey'].'"
-													data-amount="'.$TotalCartPrice.'"
-													data-currency="inr"
-													data-name="Agriculture Payment Portal"
-													data-description="Crop Payment"
-													data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-													data-label="Buy Now"
-													data-locale="auto">
-												</script>
-												</form>
-								';
+						
+						<form  id="myForm" >
+
+
+                            <button class="Buy" name="buy_now" type="submit" >
+                            Buy Now
+                            </button>
+							<h2 id="Complete"></h2>
+
+
+							
+						
+						<script>
+							function applyCoupon(event) {
+								event.preventDefault(); // Prevent form submission
+
+								const couponCode = document.getElementById("coupon-code").value;
+								const discount = getDiscount(couponCode);
+
+								if (discount !== null) {
+								const resultDiv = document.getElementById("result");
+								resultDiv.innerHTML = `Coupon code "${couponCode}" applied successfully! You got a ${discount}% discount.`;
+								} else {
+								alert("Invalid coupon code. Please try again.");
+								}
 							}
-    					?>
+
+							function getDiscount(couponCode) {
+								// This is just an example function to simulate coupon validation
+								switch (couponCode) {
+								case "SUMMER2023":
+									<?php $total1 = 0.8 * $total ?>;
+									document.getElementById("final").innerHTML = "Rs. <?php echo $total1 ?>" ;
+									return 20;
+								case "FALL2023":
+									<?php $total1 = 0.7 * $total ?>;
+									document.getElementById("final").innerHTML = "Rs. <?php echo $total1 ?>" ;
+									return 30;
+								default:
+									return null;
+								}
+							}
+							
+							const myForm = document.getElementById("myForm");
+							myForm.addEventListener("submit", function(event) {
+								document.getElementById("Complete").innerHTML = "Order Complete";
+								event.preventDefault();
+
+								setTimeout(function() {
+									window.location.href = "rating.php";
+								}, 2500);
+						});
+						</script>
+							
+						<?php
+					
+					if(isset($_POST["buy_now"])){
+						$checkquery = "SELECT cropname, quantity, price from `cart`";
+						$result = mysqli_query($conn, $checkquery);
+						$customer_id = $_SESSION["customer_id"];
+						$flag = FALSE;
+						if ($result && mysqli_num_rows($result) > 0) {
+							// Loop through the rows and insert into orders_placed table
+							while ($row = mysqli_fetch_array($result)) {
+								$cropname = $row['cropname'];
+								$quantity = $row['quantity'];
+								$price = $row['price'];
+					
+								$insertquery="INSERT INTO `orders_placed`(`cust_id`, `cropname`, `quantity`, `price`) VALUES ('$customer_id','$cropname','$quantity','$price')";
+								$insert_result = mysqli_query($conn, $insertquery);
+								// if(!$flag){
+								// 	flag = True;
+								// 	$checkquery = "SELECT order_id FROM orders_placed ORDER BY order_id DESC LIMIT 1;";	
+								// 	$result1 = mysqli_query($conn, $checkquery);
+								// 	$order_
+									
+									
+								// }
+								if (!$insert_result) {
+									// Handling the error as needed
+									echo "Error inserting record: " . mysqli_error($conn);
+								}
+							}
+						} 
+					}
+					
+
+					?>
+
+					<?php
+					}
+					?>
 							
 						
 						</td>
 					</tr>
-					<?php
-					}
-					?>
+					
 						
 				</table>
 			</div>

@@ -160,6 +160,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <td>
                         <div class="form-group col-md-4 col-xs-4">
 						<select id="crops" name="crops">
+						<optgroup label="Grains">
   							<option value="arhar">Arhar</option>
 							<option value="bajra">Bajra</option>  
 							<option value="barley">Barley</option>
@@ -173,9 +174,64 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<option value="ragi">Ragi</option>
   							<option value="rice">Rice</option>
 							<option value="soyabean">Soyabean</option>
+
 							<option value="urad">Urad</option>
 							<option value="wheat">Wheat</option>
-						</select>
+							</optgroup>
+							<optgroup label="Vegetable">
+
+<option value="tomato">Tomato</option>
+<option value="potato">Potato</option>
+<option value="beans">Beans</option>
+<option value="onion">onion</option>
+<option value="garlic">garlic</option>
+
+</optgroup>
+							<optgroup label="Extra">
+
+							<option value="egg">Egg</option>
+							<option value="bread">Bread</option>
+							<option value="milk">Milk</option>
+							<option value="ghee">Ghee</option>
+							
+							<optgroup label="Unlisted">
+							<option value="other">Other</option>  <!-- Add an "Other" option -->
+</select>
+<input type="text" name="other_category" id="other_category" style="display:none;">  <!-- Add a hidden text input field for the user to type their own category -->
+<script>
+  document.querySelector('#crops').addEventListener('change', function() {
+    if (this.value === 'other') {
+      document.querySelector('#other_category').style.display = 'block';  // Show the text input field when the "Other" option is selected
+    } else {
+      document.querySelector('#other_category').style.display = 'none';  // Hide the text input field when a different option is selected
+    }
+  });
+  document.querySelector('#other_category').addEventListener('change', function() {
+  var newCategory = this.value.trim();
+  if (newCategory !== '') {
+    var selectElement = document.querySelector('#crops');
+    var optionExists = false;
+    for (var i = 0; i < selectElement.options.length; i++) {
+      if (selectElement.options[i].value === newCategory) {
+        optionExists = true;
+        break;
+      }
+    }
+    if (!optionExists) {
+      selectElement.innerHTML += '<option value="' + newCategory + '">' + newCategory + '</option>';
+      selectElement.value = newCategory;
+    }
+  }
+});
+
+
+
+
+
+
+
+</script>
+</optgroup>
 					
 						</div>
 						
@@ -209,7 +265,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="footer"  style="position:absolute;width:100%; bottom:0;">
 		<div class="container">
 			<div class="copyright text-center">
-				<p>&copy; 2020 Agriculture Portal. All rights reserved | Design by Team 1 </a></p>
 			</div>
 		</div>
 	</div>

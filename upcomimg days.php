@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 
 //Connection Establishment  : 
 session_start();

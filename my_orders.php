@@ -1,38 +1,3 @@
-<?php 
-session_start();
-ini_set('memory_limit', '-1');
-$userlogin=$_SESSION['farmer_login_user'];
-$servername="localhost";
-$username="root";
-$password="";
-$dbname="agriculture_portal";
-
-
-//Create Connection 
-$conn =mysqli_connect($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
-$query1="SELECT * FROM farmerlogin WHERE email='".$userlogin."' ";
-$result1=mysqli_query($conn,$query1);
-$row=mysqli_fetch_array($result1);
-$farmer_id=$row['farmer_id'];
-
-
-$sql = "SELECT farmer_crop, farmer_quantity, farmer_price, `date` FROM farmer_history WHERE farmer_id='".$farmer_id."' ";
-$result = mysqli_query($conn, $sql);
-
-
-
-
-?>
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,6 +73,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 </head>
+
 <body>
 
 	<!-- header-section-starts -->
@@ -134,7 +100,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="top-menu">
 					<ul>
 					<nav class="cl-effect-13">
-						<li><a href="farmer_index.php">Home</a></li>
+						<li><a href="customer_index.php">Home</a></li>
+						<li><a href="my_orders.php">My Orders</a></li>
 						<li><a href="php/logout.php">Logout</a></li>
 						
 					</nav>
@@ -154,81 +121,65 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			
 			<div class="banner-info text-center">
-				<h1><a href="farmer_history.php">Selling History</a></h1>
+				<h1><a href="buy_crops.php">Previous Orders</a></h1>
 			</div>
 
 			
 
 		</div>
 	</div>
-	<!-- header-section-ends -->    
 
-
-       
-<table class="table table-striped table-bordered table-responsive-md btn-table">
-
-<thead>
-<tr>
-
-    
-    <th><center>Crop</center></th>
-    <th><center>Quantity (in KG)</center></th>
-    <th><center>Total Amount received (in Rs)</center></th>
-    <th><center>Date of Transaction</center></th>
-         
-    
-</tr>
-</thead>
-
-<tbody>
-<?php  
-
-while($row = $result->fetch_assoc()) {
-    $cropname=ucfirst($row["farmer_crop"]);
-    $cropquantity=$row["farmer_quantity"];
-    $cropprice=$row["farmer_price"];
-    $currentdate=$row['date'];
-
-echo "<tr>";
-    echo "<td><center>$cropname</center></td>";
-    echo "<td><center>$cropquantity</center></td>";
-    echo "<td><center>$cropprice</center></td>";
-    echo "<td><center>$currentdate</center></td>";
-echo "</tr>";
-
+<?php 
+ini_set('memory_limit', '-1');
+error_reporting(E_ERROR | E_PARSE);
+session_start();
+						
+$userlogin=$_SESSION['customer_login_user'];
+$servername="localhost";
+$username="root";
+$password="";
+$dbname="agriculture_portal";
+						
+						
+//Create Connection 
+$conn =mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
 }
+
+$customer_id=$_SESSION['customer_id'];
+
+
+// create the SQL query
+$query = "SELECT * FROM orders_placed WHERE cust_id = $customer_id";
+
+// execute the query and get the result set
+$result = mysqli_query($conn, $query);
+
+// check if there are any rows returned
+if (mysqli_num_rows($result) > 0) {
+
+    echo "<table class='table table-striped table-bordered table-responsive-md btn-table text-center'>";
+
+    // echo "<table class='table table-striped table-bordered table-responsive-md btn-table'>";
+    echo "<tr><th style='text-align:center;'>Order ID</th><th style='text-align:center;'>Crop Name</th><th style='text-align:center;'>Quantity</th><th style='text-align:center;'>Price</th><th style='text-align:center;'>Re-Order</th></tr>";
+
+    while ($row = mysqli_fetch_assoc($result)) {
+      echo "<tr>";
+      echo "<td>" . $row["order_id"] . "</td>";
+      echo "<td>" . $row["cropname"] . "</td>";
+      echo "<td>" . $row["quantity"] . "</td>";
+      echo "<td>" . $row["price"] . "</td>";
+      echo "<td>  <button class='Buy' name='buy_now' type='submit'>Re-Order </button> </td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+    
+
+} else {
+  echo "No orders found for customer with id $customer_id";
+}
+
 ?>
-</tbody>
-
-</table> 
-
-        
-	
-	<!-- footer-section -->
-	<div class="footer" style="position:absolute;width:100%; bottom:0;">
-		<div class="container">
-			<div class="copyright text-center">
-				<p>&copy; 2023 Agri World. All rights reserved | Design by Team 1 </a></p>
-			</div>
-		</div>
-	</div>
-	<!-- footer-section -->
-	<script type="text/javascript">
-		$(document).ready(function() {
-				/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-				};
-				*/
-		$().UItoTop({ easingType: 'easeOutQuart' });
-});
-</script>
-<a href="#to-top" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-<!--Google translate--> 
- <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body>
 </html>

@@ -110,8 +110,15 @@ body{
 
     <?php
       //  $url='http://newsapi.org/v2/everything?country=in&apiKey=7f1acd4f4d344efe9d732df03ab86c97';
-	  	$url='http://newsapi.org/v2/everything?q=farmers&apiKey=0298d9ac1d974e178a98f1b55322506d';   //Your API KEY
-        $response=file_get_contents($url);
+	  	// $url='http://newsapi.org/v2/everything?q=farmers&apiKey=0298d9ac1d974e178a98f1b55322506d';   //Your API KEY
+		$curl_handle=curl_init();
+		curl_setopt($curl_handle, CURLOPT_URL,'http://newsapi.org/v2/everything?q=farmers&apiKey=0298d9ac1d974e178a98f1b55322506d');
+		curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+		$response = curl_exec($curl_handle);
+		curl_close($curl_handle);
+		
+        // $response=file_get_contents($url);
         $newsdata= json_decode($response);
 
     ?>

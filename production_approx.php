@@ -197,7 +197,7 @@ echo "</tr>";
 	<div class="footer">
 		<div class="container">
 			<div class="copyright text-center">
-				<p>&copy; 2020 Agriculture Portal. All rights reserved | Design by Team 1 </a></p>
+				<p>&copy; 2023 Agri World. All rights reserved | Design by Team 1 </a></p>
 			</div>
 		</div>
 	</div>

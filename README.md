@@ -18,35 +18,33 @@ The customer module that allows to buy a variety of crops from the farmers at we
 
  * Crop Predictor using Cart Algorithm.
 
- * OpenWeatherMap API services to predict current weather.
+ * Stripe API as Payment-Gateway for the customer to purchase farm produce.
 
- * Famers can add additional categories apart from Vegetable and Grains.
- 
- * Customers can view their previous orders.
+ * OpenWeatherMap API services to predict current weather.
 
  * OpenSSL function for Encryption and Decryption on User Credentials
 
- * NewsFeed through Postman API
+ * NewsFeed
 
- * Multilingual support using Google Translate
+ * Multilingual support
 
 
 ## Installation
 
-1. OTP Verification : 
-Enter your details in `send_otp.php`
+1. SendGrid : 
+Enter your API Key in `send_otp.php`
 ```PHP
-$mail->Username = "Mail ID";    //Your Email ID
-$mail->Password = "Password"; 	//Your Email Password
-$mail->SetFrom("123@gmail.com");  //Your Email ID
+$mail->Username = "Username";    //Your SendGrid Username
+$mail->Password = "YourAPIKEY"; 	//Your Sendgrid API KEY
+$mail->SetFrom("123@gmail.com");  //Your Registered Mail from Sendgrid
 ```
 
-2. OTP Verification : 
-Enter your details in `send_otp1.php`
+2. SendGrid : 
+Enter your API Key in `send_otp1.php`
 ```PHP
-$mail->Username = "Mail ID";    //Your Email ID
-$mail->Password = "Password"; 	//Your Email Password
-$mail->SetFrom("123@gmail.com");  //Your Email ID
+$mail->Username = "Username";    //Your SendGrid Username
+$mail->Password = "YourAPIKEY"; //Your Sendgrid API KEY
+$mail->SetFrom("123@gmail.com");  //Your Registered Mail from Sendgrid
 ```
 
 3. News API :
@@ -59,6 +57,15 @@ $url='http://newsapi.org/v2/everything?q=farmers&apiKey=YourAPIKEY';   //Your AP
 Enter your API Key in `upcomming days.php`
 ```PHP
 $apiKey = "YourAPIKEY"; //Your API KEY 
+```
+
+5. Stripe payment gateway : 
+Enter your API Key in `StripePayment/config.php`
+```PHP
+$stripeDetails = array(
+	"secretKey" => "YourAPIKEY",  //Your Stripe Secret key
+	"publishableKey" => "YourAPIKEY"  //Your Stripe Publishable key
+	);
 ```
 
 
@@ -75,3 +82,98 @@ $apiKey = "YourAPIKEY"; //Your API KEY
  * MySQL
 
 
+## ScreenShots
+
+### Multi-Login Page
+
+![](Screenshots/IndexPage.PNG)
+
+
+### Farmer Registration Page
+
+![](Screenshots/FarmerRegistration.PNG)
+
+
+### Customer Registration Page
+
+![](Screenshots/CustomerRegistration.PNG)
+
+
+### Two-factor Verification
+
+![](Screenshots/TwoFactor.PNG)
+
+
+### Farmer Dashboard
+
+![](Screenshots/FarmerDashboard.PNG)
+
+
+### Farmer Profile 
+
+![](Screenshots/FarmerMyProfilePage.PNG)
+
+
+### Crops Predictor
+
+![](Screenshots/FarmerCropsPredictedPage.PNG)
+
+
+### Weather Predictor
+
+![](Screenshots/FarmerWeatherPredictionPage.PNG)
+
+
+### Farmer Trade Crops
+
+![](Screenshots/FarmerTradeCropPage.PNG)
+
+
+### News Feed
+
+![](Screenshots/FarmerNewsFeedPage.PNG)
+
+
+### Farmer Selling History
+
+![](Screenshots/FarmerSellingHistory.PNG)
+
+
+### Customer Dashboard
+
+![](Screenshots/CustomerDashboardPage.PNG)
+
+
+### Buy Crops & Cart
+
+![](Screenshots/CustomerCart.PNG)
+
+
+### Payment-Gateway Page
+
+![](Screenshots/CustomerPaymentGateway.PNG)
+
+
+### Transaction Completed Page with Invoice
+
+![](Screenshots/CustomerInvoice.PNG)
+
+
+### Government Dashboard
+
+![](Screenshots/GovernmentDashboard.PNG)
+
+
+### Production Approximator
+
+![](Screenshots/GovernmentProductionApproximator.PNG)
+
+
+### Government-Side Farmer Details 
+
+![](Screenshots/GovernmentFarmerDetails.PNG)
+
+
+### Multilingual support in Marathi
+
+![](Screenshots/FarmerDashboardinMarathi.PNG)
