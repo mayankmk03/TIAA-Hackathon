@@ -18,15 +18,17 @@ The customer module that allows to buy a variety of crops from the farmers at we
 
  * Crop Predictor using Cart Algorithm.
 
- * Stripe API as Payment-Gateway for the customer to purchase farm produce.
-
  * OpenWeatherMap API services to predict current weather.
+
+ * Famers can add additional categories apart from Vegetable and Grains.
+ 
+ * Customers can view their previous orders.
 
  * OpenSSL function for Encryption and Decryption on User Credentials
 
- * NewsFeed
+ * NewsFeed through Postman API
 
- * Multilingual support
+ * Multilingual support using Google Translate
 
 
 ## Installation
